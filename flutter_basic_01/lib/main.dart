@@ -29,13 +29,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   final String title;
   MyHomePage({required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffod(
+    return Scaffold(
       appBar: AppBar(
         title: Text(
           title,
