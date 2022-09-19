@@ -32,18 +32,19 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final String title;
   MyHomePage({required this.title});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffod(
-      AppBar: AppBar(
+      appBar: AppBar(
         title: Text(
           title,
         ),
       ),
-    ),
-    body: Center(
-      child: Text('Hello, Flutter!'),)
+      body: Center(
+        child: Text('Hello, Flutter!'),
+      ),
+    );
   }
 }
 
