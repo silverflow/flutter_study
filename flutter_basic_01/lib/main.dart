@@ -47,11 +47,17 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: 50,
-          itemBuilder: (BuildContext context, int index) {
-            return Text('$index' + ' 번째', style: TextStyle(fontSize: 25));
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(onPressed: () {}, child: Text('Text button')),
+            Padding(padding: EdgeInsets.all(20)),
+            ElevatedButton(onPressed: () {}, child: Text('Elevated Button')),
+            Padding(padding: EdgeInsets.all(20)),
+            OutlinedButton(onPressed: () {}, child: Text('Outlined Button')),
+            Padding(padding: EdgeInsets.all(20)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.star)),
+          ],
         ),
       ),
     );
