@@ -37,17 +37,18 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            this.title,
-          ),
+      appBar: AppBar(
+        title: Text(
+          this.title,
         ),
-        body: Center(
-          child: Image.asset(
-            'images/kanye_bear.png',
-            width: 100,
-            height: 100,
-          ),
-        ));
+      ),
+      body: Center(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text('1. First String', style: TextStyle(fontSize: 25)),
+        Text('2. Second String', style: TextStyle(fontSize: 20)),
+        Text('3. third String', style: TextStyle(fontSize: 15))
+      ])),
+    );
   }
 }
