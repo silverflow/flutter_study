@@ -37,14 +37,17 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          title,
+        appBar: AppBar(
+          title: Text(
+            this.title,
+          ),
         ),
-      ),
-      body: Center(
-        child: Text('Hello, Flutter!'),
-      ),
-    );
+        body: Container(
+          child: Text('Hello Flutter!'),
+          padding: EdgeInsets.all(30),
+          color: Colors.blue,
+          height: 300,
+          width: 300,
+        ));
   }
 }
