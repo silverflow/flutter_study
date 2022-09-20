@@ -42,12 +42,12 @@ class MyHomePage extends StatelessWidget {
             this.title,
           ),
         ),
-        body: Container(
-          child: Text('Hello Flutter!'),
-          padding: EdgeInsets.all(30),
-          color: Colors.blue,
-          height: 300,
-          width: 300,
+        body: Center(
+          child: Image.asset(
+            'images/kanye_bear.png',
+            width: 100,
+            height: 100,
+          ),
         ));
   }
 }
