@@ -32,10 +32,14 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   final String title;
+  List<Widget> myChildren = [];
   MyHomePage({required this.title});
 
   @override
   Widget build(BuildContext context) {
+    // for (var i = 0; i < 50; i++) {
+    //   myChildren.add(Text('Hello, World!', style: TextStyle(fontSize: 25)));
+    // }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,12 +47,13 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       body: Center(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text('1. First String', style: TextStyle(fontSize: 25)),
-        Text('2. Second String', style: TextStyle(fontSize: 20)),
-        Text('3. third String', style: TextStyle(fontSize: 15))
-      ])),
+        child: ListView.builder(
+          itemCount: 50,
+          itemBuilder: (BuildContext context, int index) {
+            return Text('$index' + ' 번째', style: TextStyle(fontSize: 25));
+          },
+        ),
+      ),
     );
   }
 }
