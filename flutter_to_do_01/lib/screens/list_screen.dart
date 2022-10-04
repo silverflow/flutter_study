@@ -134,7 +134,66 @@ class _ListScreenState extends State<ListScreen> {
                               padding: EdgeInsets.all(5),
                               child: InkWell(
                                 child: Icon(Icons.edit),
-                                onTap: () {},
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        String title = todos[index].title;
+                                        String description =
+                                            todos[index].description;
+                                        return AlertDialog(
+                                          title: Text('할 일 수정하기'),
+                                          content: Container(
+                                            height: 200,
+                                            child: Column(
+                                              children: [
+                                                TextField(
+                                                  onChanged: (value) {
+                                                    title = value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    hintText:
+                                                        todos[index].title,
+                                                  ),
+                                                ),
+                                                TextField(
+                                                  onChanged: (value) {
+                                                    description = value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    hintText: todos[index]
+                                                        .description,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: Text('수정'),
+                                              onPressed: () async {
+                                                Todo newTodo = Todo(
+                                                  id: todos[index].id,
+                                                  title: title,
+                                                  description: description,
+                                                );
+                                                setState(() {
+                                                  todoDefault
+                                                      .updateTodo(newTodo);
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('취소'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
                               ),
                             ),
                           ],
