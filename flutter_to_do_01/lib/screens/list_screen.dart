@@ -46,7 +46,55 @@ class _ListScreenState extends State<ListScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Text('+', style: TextStyle(fontSize: 25)),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  String title = '';
+                  String description = '';
+                  return AlertDialog(
+                    title: Text('할 일 추가하기'),
+                    content: Container(
+                      height: 200,
+                      child: Column(
+                        children: [
+                          TextField(
+                            onChanged: (value) {
+                              title = value;
+                            },
+                            decoration: InputDecoration(labelText: '재목'),
+                          ),
+                          TextField(
+                            onChanged: (value) {
+                              description = value;
+                            },
+                            decoration: InputDecoration(labelText: '설명'),
+                          )
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                          child: Text('추가'),
+                          onPressed: () {
+                            setState(() {
+                              print("[UI] Add");
+                              todoDefault.addTodo(
+                                Todo(title: title, description: description),
+                              );
+                            });
+                            Navigator.of(context).pop();
+                          }),
+                      TextButton(
+                        child: Text('취소'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  );
+                });
+          },
         ),
         body: isLoading
             ? Center(
@@ -57,7 +105,26 @@ class _ListScreenState extends State<ListScreen> {
                 itemBuilder: (context, index) {
                   return ListTile(
                       title: Text(todos[index].title),
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                title: Text('할 일'),
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text('제목 : ' + todos[index].title),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                        '설명 : ' + todos[index].description),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       trailing: Container(
                         width: 80,
                         child: Row(
