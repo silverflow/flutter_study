@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_to_do_01/models/todo.dart';
-import 'package:flutter_to_do_01/providers/todo_default.dart';
 import 'dart:async';
+import 'package:flutter_to_do_01/providers/todo_sqlite.dart';
 
 class ListScreen extends StatefulWidget {
   @override
@@ -10,16 +10,22 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   late List<Todo> todos;
-  TodoDefault todoDefault = TodoDefault();
+  TodoSqlite todoSqlite = TodoSqlite();
   bool isLoading = true;
+  Future initDb() async {
+    await todoSqlite.initDb().then((value) async {
+      todos = await todoSqlite.getTodos();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      todos = todoDefault.getTodos();
-      setState(() {
-        isLoading = false;
+      initDb().then((_) {
+        setState(() {
+          isLoading = false;
+        });
       });
     });
   }
@@ -76,12 +82,14 @@ class _ListScreenState extends State<ListScreen> {
                     actions: [
                       TextButton(
                           child: Text('추가'),
-                          onPressed: () {
+                          onPressed: () async {
+                            await todoSqlite.addTodo(
+                              Todo(title: title, description: description),
+                            );
+                            List<Todo> newTodos = await todoSqlite.getTodos();
                             setState(() {
-                              print("[UI] Add");
-                              todoDefault.addTodo(
-                                Todo(title: title, description: description),
-                              );
+                              print("[UI] ADD");
+                              todos = newTodos;
                             });
                             Navigator.of(context).pop();
                           }),
@@ -177,9 +185,12 @@ class _ListScreenState extends State<ListScreen> {
                                                   title: title,
                                                   description: description,
                                                 );
+                                                await todoSqlite
+                                                    .updateTodo(newTodo);
+                                                List<Todo> newTodos =
+                                                    await todoSqlite.getTodos();
                                                 setState(() {
-                                                  todoDefault
-                                                      .updateTodo(newTodo);
+                                                  todos = newTodos;
                                                 });
                                                 Navigator.of(context).pop();
                                               },
@@ -196,6 +207,43 @@ class _ListScreenState extends State<ListScreen> {
                                 },
                               ),
                             ),
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: InkWell(
+                                  child: Icon(Icons.delete),
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('할 일 삭제하기'),
+                                            content: Container(
+                                              child: Text('삭제하시겠습니까?'),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    await todoSqlite.deleteTodo(
+                                                        todos[index].id ?? 0);
+                                                    List<Todo> newTodos =
+                                                        await todoSqlite
+                                                            .getTodos();
+                                                    setState(() {
+                                                      todos = newTodos;
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('삭제')),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('취소'))
+                                            ],
+                                          );
+                                        });
+                                  }),
+                            )
                           ],
                         ),
                       ));
