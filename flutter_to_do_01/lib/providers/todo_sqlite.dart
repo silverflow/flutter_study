@@ -1,4 +1,4 @@
-import 'package:flutter_to_do_01/models/todo.dart';
+import 'package:flutter_to_do_01/models/sqlite_todo.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TodoSqlite {
