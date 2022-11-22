@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_mall/models/model_auth.dart';
+import 'package:flutter_shopping_mall/models/model_cart.dart';
 import 'package:flutter_shopping_mall/models/model_item_provider.dart';
+import 'package:flutter_shopping_mall/models/model_query.dart';
 import 'package:flutter_shopping_mall/screens/screen_detail.dart';
 import 'package:flutter_shopping_mall/screens/screen_index.dart';
 import 'package:flutter_shopping_mall/screens/screen_login.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),
           ChangeNotifierProvider(create: (_) => ItemProvider()),
+          ChangeNotifierProvider(create: (_) => SearchQuery()),
+          ChangeNotifierProvider(create: (_) => CartProvider())
         ],
         child: MaterialApp(
           title: 'Flutter Shopping mall',
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
             '/login': (context) => LoginScreen(),
             '/index': (context) => IndexScreen(),
             '/register': (context) => RegisterScreen(),
-            // '/search': (context) => SearchScreen(),
+            '/search': (context) => SearchScreen(),
             '/detail': (context) => DetailScreen(),
           },
           initialRoute: '/',
