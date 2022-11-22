@@ -4,6 +4,10 @@ firebase_app_id_file.json
 GoogleService-info.plist
 firebase_options.dart
 Podfile.lock
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
 
 # Miscellaneous
 *.class
