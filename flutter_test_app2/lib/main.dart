@@ -61,6 +61,45 @@ class MyPage extends StatelessWidget {
                 backgroundImage: AssetImage('assets/user.png'),
                 backgroundColor: Colors.white,
               ),
+              otherAccountsPictures: <Widget>[
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/user2.png'),
+                  backgroundColor: Colors.white,
+                )
+              ],
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.home,
+                color: Colors.grey[850],
+              ),
+              onTap: () {
+                print('Home is clicked');
+              },
+              title: Text('Home'),
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.settings,
+                color: Colors.grey[850],
+              ),
+              onTap: () {
+                print('setting is clicked');
+              },
+              title: Text('Setting'),
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.question_answer,
+                color: Colors.grey[850],
+              ),
+              onTap: () {
+                print('Q&A is clicked');
+              },
+              title: Text('Q&A'),
+              trailing: Icon(Icons.add),
             )
           ],
         ),
