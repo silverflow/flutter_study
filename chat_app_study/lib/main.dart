@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/screens/loading.dart';
-import 'package:weather_app/screens/weather_screen.dart';
+import 'package:chat_app_study/screens/main_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Weather app',
+      title: 'Catting Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WeatherScreen(),
+      home: LoginSignupScreen(),
     );
   }
 }
