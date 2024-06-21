@@ -4,6 +4,11 @@ import 'package:calendar_scheduler/const/colors.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:get_it/get_it.dart';
 import 'package:calendar_scheduler/database/drift_database.dart';
+import 'package:calendar_scheduler/model/schedule_model.dart';
+import 'package:provider/provider.dart';
+import 'package:calendar_scheduler/provider/schedule_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate; // 선택된 날짜 상위 위젯에서 입력받기
@@ -77,7 +82,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: onSavePressed,
+                      onPressed: () => onSavePressed(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: PRIMARY_COLOR,
                       ),
@@ -89,18 +94,21 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         )));
   }
 
-  void onSavePressed() async {
+  void onSavePressed(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save(); // 폼 저장하기
 
-      await GetIt.I<LocalDatabase>().createSchedule(
-        SchedulesCompanion(
-          startTime: Value(startTime!),
-          endTime: Value(endTime!),
-          content: Value(content!),
-          date: Value(widget.selectedDate),
-        ),
-      );
+      final schedule = ScheduleModel(
+          id: Uuid().v4(),
+          content: content!,
+          date: widget.selectedDate,
+          startTime: startTime!,
+          endTime: endTime!);
+
+      await FirebaseFirestore.instance
+          .collection('schedule')
+          .doc(schedule.id)
+          .set(schedule.toJson());
 
       Navigator.of(context).pop(); // 일정 생성 후 화면 뒤로 가기
     }
