@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:calendar_scheduler/provider/schedule_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate; // 선택된 날짜 상위 위젯에서 입력받기
@@ -104,11 +105,27 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
           date: widget.selectedDate,
           startTime: startTime!,
           endTime: endTime!);
+      // 현재 로그인한 사용자 정보를 가져옴
+      final user = FirebaseAuth.instance.currentUser;
+
+      // 만약 로그인한 사용자 정보를 가져오지 못하면 다시 로그인 요청
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('다시 로그인 해주세요'),
+        ));
+
+        Navigator.of(context).pop();
+
+        return;
+      }
 
       await FirebaseFirestore.instance
           .collection('schedule')
           .doc(schedule.id)
-          .set(schedule.toJson());
+          .set({
+        ...schedule.toJson(),
+        'author': user.email,
+      });
 
       Navigator.of(context).pop(); // 일정 생성 후 화면 뒤로 가기
     }

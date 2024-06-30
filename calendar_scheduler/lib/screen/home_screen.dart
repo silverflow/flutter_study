@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:calendar_scheduler/provider/schedule_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:calendar_scheduler/model/schedule_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -70,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     isEqualTo:
                         '${selectedDate.year}${selectedDate.month}${selectedDate.day}',
                   )
+                  .where('auther',
+                      isEqualTo: FirebaseAuth.instance.currentUser!.email)
                   .snapshots(),
               builder: (context, snapshot) {
                 return TodayBanner(
@@ -93,6 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       isEqualTo:
                           '${selectedDate.year}${selectedDate.month}${selectedDate.day}',
                     )
+                    .where('author',
+                        isEqualTo: FirebaseAuth.instance.currentUser!.email)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
